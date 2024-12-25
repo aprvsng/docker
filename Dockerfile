@@ -1,14 +1,14 @@
-# Use the official MySQL image from the Docker Hub
-FROM mysql:8.0
+FROM ubuntu
+MAINTAINER kurama
 
-# Set environment variables for the MySQL root user and database
-ENV MYSQL_ROOT_PASSWORD=rootpassword
-ENV MYSQL_DATABASE=mydatabase
-ENV MYSQL_USER=myuser
-ENV MYSQL_PASSWORD=mypassword
+#skip prompts
+ARG DEBIAN_FRONTEND=noninteractive
 
-# Expose the default MySQL port
-EXPOSE 3306
+#update packages
+RUN apt update; apt dist-upgrade -y
 
-# For data persistance use : docker run -d --name mysql-container -p 3306:3306 -v name:/var/lib/mysql custom-mysql:1.0
+#install packages
+RUN apt install -y apache2 vim
 
+#set entrypoint
+ENTRYPOINT apache2ctl -D FOREGROUND
